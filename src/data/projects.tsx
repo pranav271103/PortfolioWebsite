@@ -813,7 +813,7 @@ const projects: Project[] = [
       return (
         <div>
           <TypographyP className="font-mono ">
-            Advanced Reputation Monitor is a powerful tool that tracks and analyzes online mentions across multiple platforms including Twitter, Reddit, and web search results. It provides comprehensive sentiment analysis, confidence scoring, and interactive visualizations to help you monitor your brand's online reputation.
+            Advanced Reputation Monitor is a powerful tool that tracks and analyzes online mentions across multiple platforms including Twitter, Reddit, and web search results. It provides comprehensive sentiment analysis, confidence scoring, and interactive visualizations to help you monitor your brand&apos;s online reputation.
           </TypographyP>
           <ProjectsLinks live={this.live} />
           <SlideShow
@@ -843,7 +843,7 @@ const projects: Project[] = [
         <div>
           <TypographyP className="font-mono ">
             A powerful voice and text-controlled AI assistant with system control capabilities. 
-            Built with Python and Google's Gemini 1.5 Flash model, Jarvis helps you be more 
+            Built with Python and Google&apos;s Gemini 1.5 Flash model, Jarvis helps you be more 
             productive by automating tasks through natural language commands.
           </TypographyP>
           <SlideShow
@@ -862,7 +862,7 @@ const projects: Project[] = [
             <li>System Control for automating computer tasks</li>
             <li>Productivity Tools for enhanced workflow</li>
             <li>Customization and Extensibility for personalized experience</li>
-            <li>Powered by Google's Gemini 1.5 Flash model</li>
+            <li>Powered by Google&apos;s Gemini 1.5 Flash model</li>
           </ul>
         </div>
       );
@@ -925,7 +925,7 @@ const projects: Project[] = [
       return (
         <div>
           <TypographyP className="font-mono ">
-            Your AI-powered code analysis companion - Understand, document, and improve your code with the power of Google's Gemini AI. 
+            Your AI-powered code analysis companion - Understand, document, and improve your code with the power of Google&apos;s Gemini AI. 
             Transform complex codebases into well-documented, maintainable projects with intelligent code explanations and 
             documentation generation. The tool helps developers quickly grasp unfamiliar codebases and maintain better documentation.
           </TypographyP>
@@ -942,7 +942,7 @@ const projects: Project[] = [
             <li>AI-powered code analysis and explanation</li>
             <li>Automated documentation generation</li>
             <li>Support for multiple programming languages</li>
-            <li>Integration with Google's Gemini AI</li>
+            <li>Integration with Google&apos;s Gemini AI</li>
             <li>Clean and intuitive user interface</li>
           </ul>
         </div>
@@ -966,7 +966,7 @@ const projects: Project[] = [
           <TypographyP className="font-mono ">
             HelperAgent is an easy-to-use AI homework assistant. It lets you upload a photo of your question 
             (like a math problem or science question) or just type your question, and it will give you a clear, 
-            step-by-step answer using Google's Gemini AI. The application is designed to be intuitive and 
+            step-by-step answer using Google&apos;s Gemini AI. The application is designed to be intuitive and 
             accessible for students of all levels.
           </TypographyP>
           <SlideShow
@@ -980,7 +980,7 @@ const projects: Project[] = [
           <ul className="list-disc pl-6 font-mono space-y-2">
             <li>Image-based question solving - just snap a picture of your problem</li>
             <li>Text-based question support for direct queries</li>
-            <li>Step-by-step solutions powered by Google's Gemini AI</li>
+            <li>Step-by-step solutions powered by Google&apos;s Gemini AI</li>
             <li>Clean, student-friendly interface</li>
             <li>Supports various subjects including math, science, and more</li>
           </ul>

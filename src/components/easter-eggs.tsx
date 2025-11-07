@@ -11,7 +11,7 @@ const EasterEggs = () => {
     // console.log(
     //   "%cWhoa, look at you! 🕵️‍♂️\n\n" +
     //     "Peeking under the hood, eh? Just be careful, " +
-    //     "you might find some 🐛 bugs that even I didn't know about! 😅\n\n" +
+    //     "you might find some 🐛 bugs that even I didn&apos;t know about! 😅\n\n" +
     //     "By the way, did you know the console is a portal to another dimension? 🌌 " +
     //     "Just kidding... or am I? 👽\n\n" +
     //     "Keep exploring, brave soul! 🛠️",
@@ -46,7 +46,7 @@ const EasterEggs = () => {
             const timer = setTimeout(() => {
               console.log(
                 "%cPssttt! 🤫\n\n" +
-                  "Do you like cats?? 😺 If yes, then press 'n' on viewport and see what happens! 🐱✨",
+                  "Do you like cats?? 😺 If yes, then press &apos;n&apos; on viewport and see what happens! 🐱✨",
                 "color: #FF69B4; font-size: 16px; font-weight: bold; background-color: black; padding: 10px; border-radius: 10px;"
               );
               clearTimeout(timer);
