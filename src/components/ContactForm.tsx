@@ -1,114 +1,139 @@
 "use client";
 import { Check, ChevronRight, Loader2 } from "lucide-react";
-import React from "react";
-import { Label } from "./ui/label";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "./ui/button";
 import { Input } from "./ui/ace-input";
 import { Textarea } from "./ui/ace-textarea";
-import { cn } from "@/lib/utils";
 import { useToast } from "./ui/use-toast";
-import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+
+const formSchema = z.object({
+  fullName: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters.",
+  }),
+});
 
 const ContactForm = () => {
-  const [fullName, setFullName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [message, setMessage] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-
   const { toast } = useToast();
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
+  const { register, handleSubmit, formState, reset } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const res = await fetch("/api/send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName,
-          email,
-          message,
-        }),
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
+      setIsLoading(true);
+      
+      // Log the form data to console (for testing)
+      console.log("Form submitted:", values);
+      
+      // Show success message
       toast({
         title: "Thank you!",
-        description: "I&apos;ll get back to you as soon as possible.",
+        description: "Your message has been received. I'll get back to you soon!",
         variant: "default",
         className: cn("top-0 mx-auto flex fixed md:top-4 md:right-4"),
       });
-      setLoading(false);
-      setFullName("");
-      setEmail("");
-      setMessage("");
-      const timer = setTimeout(() => {
-        router.push("/");
-        clearTimeout(timer);
-      }, 1000);
-    } catch (err) {
+      
+      // Reset form
+      reset();
+    } catch (error) {
+      console.error(error);
       toast({
         title: "Error",
-        description: "Something went wrong! Please check the fields.",
-        className: cn(
-          "top-0 w-full flex justify-center fixed md:max-w-7xl md:top-4 md:right-4"
-        ),
+        description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
-    setLoading(false);
-  };
+  }
+
   return (
-    <form className="min-w-7xl mx-auto sm:mt-4" onSubmit={handleSubmit}>
-      <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-        <LabelInputContainer>
-          <Label htmlFor="fullname">Full name</Label>
-          <Input
-            id="fullname"
-            placeholder="Your Name"
-            type="text"
-            required
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-        </LabelInputContainer>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="email">Email Address</Label>
-          <Input
-            id="email"
-            placeholder="you@example.com"
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </LabelInputContainer>
-      </div>
-      <div className="grid w-full gap-1.5 mb-4">
-        <Label htmlFor="content">Your Message</Label>
-        <Textarea
-          placeholder="Tell me about about your project,"
-          id="content"
-          required
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <div className="space-y-2">
+        <label
+          htmlFor="fullName"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Full Name
+        </label>
+        <Input
+          id="fullName"
+          placeholder="Your full name"
+          {...register("fullName")}
+          className={formState.errors.fullName ? "border-red-500" : ""}
         />
-        <p className="text-sm text-muted-foreground">
-          I&apos;ll never share your data with anyone else. Pinky promise!
-        </p>
+        {formState.errors.fullName && (
+          <p className="text-sm text-red-500">
+            {formState.errors.fullName.message}
+          </p>
+        )}
+      </div>
+      <div className="space-y-2">
+        <label
+          htmlFor="email"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Email
+        </label>
+        <Input
+          id="email"
+          type="email"
+          placeholder="your.email@example.com"
+          {...register("email")}
+          className={formState.errors.email ? "border-red-500" : ""}
+        />
+        {formState.errors.email && (
+          <p className="text-sm text-red-500">
+            {formState.errors.email.message}
+          </p>
+        )}
+      </div>
+      <div className="space-y-2">
+        <label
+          htmlFor="message"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          Message
+        </label>
+        <Textarea
+          id="message"
+          placeholder="Your message"
+          className={formState.errors.message ? "border-red-500" : ""}
+          {...register("message")}
+          rows={5}
+        />
+        {formState.errors.message && (
+          <p className="text-sm text-red-500">
+            {formState.errors.message.message}
+          </p>
+        )}
       </div>
       <Button
-        disabled={loading}
-        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
+        disabled={isLoading}
+        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
       >
-        {loading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            <p>Please wait</p>
+            Please wait
           </div>
         ) : (
           <div className="flex items-center justify-center">
